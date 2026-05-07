@@ -8,6 +8,7 @@ Node base VFX editor for pixel art.
 
 
 ## Set up guides
+- Install Python >= 3
 - Install GameMaker: Studio IDE 2024.11.0.179 (runtime 2024.11.0.227)
 - The `default` config already disable unavailable extensions.
 - If running on Mac, delete  PixelComposer\datafiles\data\themes\default folder (keep the zip file) before running.
