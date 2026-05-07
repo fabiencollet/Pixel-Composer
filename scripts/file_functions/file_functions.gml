@@ -120,9 +120,10 @@ function __file_selector(_mode = "save", _dir = PREFERENCES.dialog_path, _fname 
 }
 
 function get_open_filenames_compat(ext, fname, caption = "Open", _dir = PREFERENCES.dialog_path) {
-	var _native = PREFERENCES.use_native_file_browser && OS == os_windows;
+	var _native = PREFERENCES.use_native_file_browser && OS == os_windows || OS == os_macosx;
 	if(_native) {
-		var pat, w = OS == os_windows;
+
+		var pat, w = OS == os_windows || OS == os_macosx;
 		
 		if(w) pat = get_open_filenames_ext(ext, fname, _dir, caption);
 		else  pat = get_open_filename_compat(ext, fname, caption);
@@ -146,7 +147,7 @@ function get_open_filenames_compat(ext, fname, caption = "Open", _dir = PREFEREN
 }
 
 function get_open_filename_compat(ext, fname, caption = "Open", _dir = PREFERENCES.dialog_path) {
-	var _native = PREFERENCES.use_native_file_browser && OS == os_windows;
+	var _native = PREFERENCES.use_native_file_browser && OS == os_windows || OS == os_macosx;
 	if(_native) {
 		var path = get_open_filename_ext(ext, fname, _dir, caption);
 		    path = string(path);
@@ -164,7 +165,7 @@ function get_open_filename_compat(ext, fname, caption = "Open", _dir = PREFERENC
 }
 
 function get_open_directory_compat(fname, _dir = PREFERENCES.dialog_path) {
-	var _native = PREFERENCES.use_native_file_browser && OS == os_windows;
+	var _native = PREFERENCES.use_native_file_browser && OS == os_windows || OS == os_macosx;
 	if(_native) return get_directory(filename_combine(_dir, fname));
 	
 	var _res = __file_selector("load", _dir, fname, "folder", false);
@@ -179,7 +180,7 @@ function get_open_directory_compat(fname, _dir = PREFERENCES.dialog_path) {
 }
 
 function get_save_filename_compat(ext, fname, caption = "Save as", _dir = PREFERENCES.dialog_path) {
-	var _native = PREFERENCES.use_native_file_browser && OS == os_windows;
+	var _native = PREFERENCES.use_native_file_browser && OS == os_windows || OS == os_macosx;
 	if(_native) {
 		var path = get_save_filename_ext(ext, fname, _dir, caption);
 		    path = string(path);
