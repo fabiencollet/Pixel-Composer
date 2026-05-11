@@ -241,15 +241,17 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 	gif_frames        = 0;
 	
 	directory = "";
-	converter = filepath_resolve(PREFERENCES.ImageMagick_path) + "convert.exe";
-	magick    = filepath_resolve(PREFERENCES.ImageMagick_path) + "magick.exe";
-	webp      = filepath_resolve(PREFERENCES.webp_path)		   + "webpmux.exe";
-	gifski    = filepath_resolve(PREFERENCES.gifski_path) 	   + "win/gifski.exe";
-	ffmpeg    = filepath_resolve(PREFERENCES.ffmpeg_path) 	   + "bin/ffmpeg.exe";
 	
 	temp_surface = [ noone ]; 
 	
 	if(OS == os_windows) {
+		
+		converter = filepath_resolve(PREFERENCES.ImageMagick_path) + "convert.exe";
+		magick    = filepath_resolve(PREFERENCES.ImageMagick_path) + "magick.exe";
+		webp      = filepath_resolve(PREFERENCES.webp_path)		   + "webpmux.exe";
+		gifski    = filepath_resolve(PREFERENCES.gifski_path) 	   + "win/gifski.exe";
+		ffmpeg    = filepath_resolve(PREFERENCES.ffmpeg_path) 	   + "bin/ffmpeg.exe";
+		
 		var _w = function(s,p) /*=>*/ {return $"No {s} detected at {p}, please make sure the installation is complete and {s} path is set correctly in the preference."};
 		
 		if(!file_exists_empty(converter)) noti_warning(_w("ImageMagick", magick), noone, self);
@@ -259,16 +261,18 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		if(!file_exists_empty(ffmpeg))    noti_warning(_w("FFmpeg",      ffmpeg), noone, self);
 		
 	} else if(OS == os_macosx) {
+
+		converter = filepath_resolve(PREFERENCES.ImageMagick_path) + "convert";
+		magick    = filepath_resolve(PREFERENCES.ImageMagick_path) + "magick";
+		webp      = filepath_resolve(PREFERENCES.webp_path)		   + "webpmux";
+		gifski    = filepath_resolve(PREFERENCES.gifski_path) 	   + "win/gifski";
+		ffmpeg    = filepath_resolve(PREFERENCES.ffmpeg_path) 	   + "bin/ffmpeg";
+
 		var _w = function(str) /*=>*/ {return $"No {str} installed, please install {str} with homebrew or use the provided 'mac-libraries-installer.command'."};
-		
-		if(string_pos(shell_execute_output("convert", ""), "not found")) noti_warning(_w("ImageMagick"), noone, self);
-		if(string_pos(shell_execute_output("webp", ""),    "not found")) noti_warning(_w("webp"),        noone, self);
-		if(string_pos(shell_execute_output("ffmpeg", ""),  "not found")) noti_warning(_w("FFmpeg"),      noone, self);
-		
-		converter = "/opt/homebrew/bin/convert";
-		magick    = "/opt/homebrew/bin/magick";
-		webp      = "/opt/homebrew/bin/webp";
-		ffmpeg    = "/opt/homebrew/bin/ffmpeg";
+
+		if(!file_exists_empty(converter)) noti_warning(_w("ImageMagick", magick), noone, self);
+		if(!file_exists_empty(webp))      noti_warning(_w("webp",        webp),   noone, self);
+		if(!file_exists_empty(ffmpeg))    noti_warning(_w("FFmpeg",      ffmpeg), noone, self);
 	}
 	
 	static onValueUpdate = function(_index) {
@@ -280,7 +284,7 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 			inputs[9].setValue(0);
 		
 		if(_index == 3 && form == 1)
-			inputs[2].setValue("%d%n%3f%i");
+			inputs[2].setValue("%d%n%3f");
 		
 		if(_index == 1) {
 			var _path = getInputData(1);
@@ -500,9 +504,14 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		if(inputs[8].attributes.unit == VALUE_UNIT.reference) rate *= project.animator.framerate;
 		rate = max(1, rate);
 		
-		temp_path   = string_replace_all(temp_path, "/", "\\");
-		target_path = string_replace_all(target_path, "/", "\\");
-		
+		if(OS == os_windows) {
+			temp_path   = string_replace_all(temp_path, "/", "\\");
+			target_path = string_replace_all(target_path, "/", "\\");
+		}
+		else{
+			temp_path   = string_replace_all(temp_path, "\\", "/");
+			target_path = string_replace_all(target_path, "\\", "/");
+		}
 		var framerate  = 100 / rate; framerate = $"1x{rate}";
 		var loop_str   = loop? 0 : 1;
 		var use_gifski = false;
@@ -543,11 +552,17 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		
 		if(file_exists_empty(target_path)) file_delete(target_path);
 		
-		temp_path   = string_replace_all(temp_path, "/", "\\");
+		if(OS == os_windows) {
+			temp_path   = string_replace_all(temp_path, "/", "\\");
+			target_path = string_replace_all(target_path, "/", "\\");
+		}
+		else{
+			temp_path   = string_replace_all(temp_path, "\\", "/");
+			target_path = string_replace_all(target_path, "\\", "/");
+		}
 		temp_path   = string_trim(temp_path, ["*.png"]) + "%05d.png";
-		target_path = string_replace_all(target_path, "/", "\\");
 		
-		var	shell_cmd  = $"-hide_banner -loglevel quiet -framerate {rate} -y -i \"{temp_path}\" -c:v libx264 -pix_fmt yuv420p -crf {qual} {string_quote(target_path)}";
+		var	shell_cmd  = $"-hide_banner -loglevel quiet -framerate {rate} -y -i \"{temp_path}\" -c:v libx264 -pix_fmt yuv420p -crf {qual} -f mp4 -map 0:v:all -movflags +faststart {string_quote(target_path)}";
 		
 		render_process_id = shell_execute_async(ffmpeg, shell_cmd, self);
 		render_type       = "mp4";
@@ -564,9 +579,15 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		
 		if(file_exists_empty(target_path)) file_delete(target_path);
 		
-		temp_path   = string_replace_all(temp_path, "/", "\\");
+		if(OS == os_windows) {
+			temp_path   = string_replace_all(temp_path, "/", "\\");
+			target_path = string_replace_all(target_path, "/", "\\");
+		}
+		else{
+			temp_path   = string_replace_all(temp_path, "\\", "/");
+			target_path = string_replace_all(target_path, "\\", "/");
+		}
 		temp_path   = string_trim(temp_path, ["*.png"]) + "%05d.png";
-		target_path = string_replace_all(target_path, "/", "\\");
 		
 		var	shell_cmd  = $"-hide_banner -loglevel quiet -framerate {rate} -y -i \"{temp_path}\" -c:v libvpx-vp9 -pix_fmt yuva420p -b:v {bitr}M -crf {qual} -deadline good -auto-alt-ref 0 {string_quote(target_path)}";
 		
@@ -582,9 +603,15 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		
 		if(file_exists_empty(target_path)) file_delete(target_path);
 		
-		temp_path   = string_replace_all(temp_path, "/", "\\");
+		if(OS == os_windows) {
+			temp_path   = string_replace_all(temp_path, "/", "\\");
+			target_path = string_replace_all(target_path, "/", "\\");
+		}
+		else{
+			temp_path   = string_replace_all(temp_path, "\\", "/");
+			target_path = string_replace_all(target_path, "\\", "/");
+		}
 		temp_path   = string_trim(temp_path, ["*.png"]) + "%05d.png";
-		target_path = string_replace_all(target_path, "/", "\\");
 		
 		var	shell_cmd  = $"-hide_banner -loglevel quiet -framerate {rate} -y -i \"{temp_path}\" -plays 0 {string_quote(target_path)}";
 		
@@ -616,6 +643,10 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		var _pathOut  = filename_change_ext(_path, ext);
 		var _pathTemp = $"{directory}/{irandom_range(10000, 99999)}.png";
 		
+		log_message("SAVE", $"_pathOut: {_pathOut}");
+		log_message("SAVE", $"_pathTemp: {_pathTemp}");
+		log_message("SAVE", $"_surf: {_surf}");
+
 		switch(ext) {
 			case ".png": 
 				switch(indx) {
@@ -769,9 +800,14 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 				CLI_EXPORT_AMOUNT++;
 			}
 			
+			log_message("EXPORT", $"Path: {p}")
+						.setOnClick(function(p) /*=>*/ {return shellOpenExplorer(p)}, "Open in explorer", THEME.explorer, filename_dir(p));
 			p = save_surface(surf, p);
 			var _delt = get_seconds() - file_get_modify_s(p);
-			if(file_attributes(p, fa_readonly) || _delt > 2) { // check if saved file is actually modified (+- 2 seconds)
+			log_message("EXPORT", $"Path after export: {p}");
+			log_message("EXPORT", $"Delta: {_delt}, Seconds: {get_seconds()}, File Modify: {file_get_modify_s(p)}");
+			log_message("EXPORT", $"File exist: {file_exists(p)}");
+			if(_delt > 2) { // check if saved file is actually modified (+- 2 seconds)
 				if(exportLog)
 					log_warning("EXPORT", $"Export failed, file is read-only.")
 						.setOnClick(function(p) /*=>*/ {return shellOpenExplorer(p)}, "Open in explorer", THEME.explorer, filename_dir(p));

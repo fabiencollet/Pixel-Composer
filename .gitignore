@@ -25,6 +25,9 @@ objects/o_dialog_patreon/*
 build
 gmedit
 
-!*.yy
+*.yy
+
+*.fsh
+
 
 *.afdesign~lock~
