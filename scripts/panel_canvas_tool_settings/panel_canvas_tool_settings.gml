@@ -216,11 +216,12 @@ function Panel_Canvas_Tool_Settings() : PanelContent() constructor {
 			var bx = MAC? pd : w - pd - bw;
 			var by = pd;
 			
-			var bspr = THEME.button_hide_fill;
+			var bspr = MAC? noone : THEME.button_hide_fill;
 			var bp   = THEME.window_exit_icon;
-        	var bc   = COLORS._main_accent;
+			var bi   = MAC? [0,1] : 0;
+        	var bc   = MAC? c_white : COLORS._main_accent;
         	
-            var b  = buttonInstant(bspr, bx, by, bw, bh, m, pHOVER, true, "", bp, 0, bc);
+            var b  = buttonInstant(bspr, bx, by, bw, bh, m, pHOVER, true, "", bp, bi, bc);
             if(b) _draggable = false;
             if(b == 2) closeDialog();
             

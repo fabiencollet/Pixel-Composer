@@ -116,7 +116,7 @@ function Node_Shape(_x, _y, _group = noone) : Node_Processor(_x, _y, _group) con
 	newInput(15, nodeValue_EScroll(  "Positioning Mode",    1, [ "Area", "Center + Scale", "Full Image" ]))
 	newInput( 3, nodeValue_Area(     "Position",          DEF_AREA_REF, { onSurfaceSize, useShape : false })).setUnitSimple();
 	newInput(16, nodeValue_Vec2(     "Center",            [.5,.5] )).setHotkey("G").setUnitSimple();
-	newInput(17, nodeValue_Vec2(     "Half Size",         [.5,.5] )).setUnitSimple();
+	newInput(17, nodeValue_Vec2(     "Half Size",         [.5,.5] )).setUnitSimple().hideLabel();
 	newInput(19, nodeValue_Rotation( "Shape Rotation",      0     )).setHotkey("R").setPieMenu();
 	newInput(28, nodeValue_Slider(   "Shape Scale",         1     )).setHotkey("S").hideLabel().setPieMenu();
 	
@@ -703,7 +703,7 @@ function Node_Shape(_x, _y, _group = noone) : Node_Processor(_x, _y, _group) con
 			
 			case 1 : 
 				drawOverlayInput(inputs[16].drawOverlay(w_hoverable, active,  _x,  _y, _s, _mx, _my));
-				drawOverlayInput(inputs[17].drawOverlay(w_hoverable, active, _px, _py, _s, _mx, _my, 0, [1,1], _rot));
+				drawOverlayInput(inputs[17].drawOverlay(w_hoverable, active, _px, _py, _s, _mx, _my, 1, [1,1], _rot));
 				break;
 		}
 		

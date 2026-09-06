@@ -215,10 +215,11 @@ function buttonInstant(spr, _x, _y, _w, _h, _m, _hvr, _act, _tip = "",
 		
 	var res = 0;
 	var cc  = is_array(_icon_blend)? _icon_blend[0] : _icon_blend;
+	var ii  = is_array(_icon_index)? _icon_index[0] : _icon_index;
 	
 	if(_hvr && point_in_rectangle(_m[0], _m[1], _x, _y, _x + _w, _y + _h)) {
-		if(is_array(_icon_blend))
-			cc = _icon_blend[1];
+		if(is_array(_icon_blend)) cc = _icon_blend[1];
+		if(is_array(_icon_index)) ii = _icon_index[1];
 			
 		res = 1;
 		if(spr) draw_sprite_stretched_ext(spr, 1, _x, _y, _w, _h, _button_blend);
@@ -243,7 +244,7 @@ function buttonInstant(spr, _x, _y, _w, _h, _m, _hvr, _act, _tip = "",
 	var ica = _icon_alpha == 1 || res == 0? _icon_alpha : 1;
 	
 	     if(is(_icon, sprite_drawer)) _icon.draw(icx, icy, _icon_scale, cc, ica);
-	else if(sprite_exists(_icon))     draw_sprite_ui_uniform(_icon, _icon_index, icx, icy, _icon_scale, cc, ica);
+	else if(sprite_exists(_icon))     draw_sprite_ui_uniform(_icon, ii, icx, icy, _icon_scale, cc, ica);
 	
 	return res;
 }

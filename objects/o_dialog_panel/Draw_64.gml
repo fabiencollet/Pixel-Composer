@@ -48,7 +48,7 @@ var _cnt = panel.getContent();
 	panel.step();
 	
 	panel.draw();
-	panel.drawFrame();
+	panel.drawFrame(true);
 	
 	panel.drawGUI();
 	
@@ -62,29 +62,33 @@ var _cnt = panel.getContent();
 	
 	if(title_height) {
 		var dh = title_height;
-		draw_sprite_stretched_ext( THEME.dialog, 2, _dialog_x, _dialog_y, _dialog_w, dh, COLORS._main_icon_light, 1);
+		draw_sprite_stretched_ext( THEME.dialog, 3, _dialog_x, _dialog_y, _dialog_w, dh, COLORS._main_icon_light, 1);
 		
+		var bb = MAC? noone : THEME.button_hide_fill;
 		var bs = ui(20);
+		var bp = MAC? bs + 1 : bs + ui(2);
+		
 		var bx = MAC? _dialog_x + ui(6) : _dialog_x + dialog_w - ui(6) - bs;
 		var by = _dialog_y + dh / 2 - bs / 2;
 		var overBut = content.title_actions_override && !array_empty(content.title_actions);
 		
 		if(instanceof(content) != "Panel_Menu" && !overBut) {
-			var bb = THEME.button_hide_fill;
-			
-			if(buttonInstant(bb, bx, by, bs, bs, mouse_ui, hov, foc, "", THEME.window_exit_icon, 0, CARRAY.button_negative) == 2) {
+			var bc = MAC? c_white : CARRAY.button_negative;
+			var bi = MAC? [action_button_hovering,1] : 0;
+			if(buttonInstant(bb, bx, by, bs, bs, mouse_ui, hov, foc, "", THEME.window_exit_icon, bi, bc) == 2) {
 				onDestroy();
 				instance_destroy();
 			}
-			bx -= (bs + ui(2)) * (MAC? -1 : 1);
+			bx -= bp * (MAC? -1 : 1);
 			
 		    if(is(_cnt, PanelContent)) {
-				if(buttonInstant(bb, bx, by, bs, bs, mouse_ui, hov, foc, "", THEME.window_pan_icon) == 2) {
+		    	var bc = [ COLORS._main_icon, COLORS._main_icon_light ];
+				if(buttonInstant(bb, bx, by, bs, bs, mouse_ui, hov, foc, "", THEME.window_pan_icon, 0, bc) == 2) {
 					_cnt.dragSurface = undefined;
 					PANEL_DRAGGING = _cnt;
 					instance_destroy();
 				} 
-				bx -= (bs + ui(2)) * (MAC? -1 : 1);
+				bx -= bp * (MAC? -1 : 1);
 		    }
 		}
 		
@@ -98,25 +102,27 @@ var _cnt = panel.getContent();
 			if(buttonInstant(THEME.button_hide_fill, bx, by, bs, bs, mouse_ui, hov, foc, _txt, _spr[0], _spr[1], _spr[2]) == 2)
 				_act(_par);
 			
-			bx -= (bs + ui(2)) * (MAC? -1 : 1);
+			bx -= bp * (MAC? -1 : 1);
 		}
 		
 		if(instanceof(content) != "Panel_Menu") {
 			if(!MAC) bx = _dialog_x + ui(6);
 			
-			var txt = destroy_on_click_out? __txt("Pin") : __txt("Unpin");
-			var cc  = destroy_on_click_out? COLORS._main_icon : COLORS._main_icon_light;
+			var txt = "";//destroy_on_click_out? __txt("Pin") : __txt("Unpin");
+			var bc  = [ COLORS._main_icon, COLORS._main_icon_light ];
 			var ind = !destroy_on_click_out;
 			
-			var b = buttonInstant(THEME.button_hide_fill, bx, by, bs, bs, mouse_ui, hov, foc, txt, THEME.pin, ind, cc, 1, .75);
+			var b  = buttonInstant(bb, bx, by, bs, bs, mouse_ui, hov, foc, txt, THEME.window_pin_icon, ind, bc, 1, .75);
 			bx += bs + ui(2);
 			if(b == 2) destroy_on_click_out = !destroy_on_click_out;
 		}
 		
+		action_button_hovering = hov && point_in_rectangle(mouse_mx, mouse_my, _dialog_x, _dialog_y, bx, _dialog_y + dh);
+		
 		var _tx   = bx + ui(2);
 		var _scis = gpu_get_scissor();
 		gpu_set_scissor(_tx, _dialog_y, x1 - _tx, title_height);
-			draw_set_text(f_p2, fa_left, fa_center, COLORS._main_text_sub);
+			draw_set_text(f_p3, fa_left, fa_center, COLORS._main_text_sub);
 			draw_text_add(_tx, _dialog_y + dh / 2, title);
 		gpu_set_scissor(_scis);
 		

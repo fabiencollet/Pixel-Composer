@@ -604,7 +604,7 @@ function Panel_Menu() : PanelContent() constructor {
                 if((pHOVER || instance_exists(o_dialog_menubox)) && point_in_rectangle(mx, my, x0, y0, x1, y1)) {
                     _draggable = false;
                     // draw_sprite_stretched(THEME.box_r2_clr, 0, x0, y0, x1 - x0, y1 - y0);
-                    draw_sprite_stretched_ext(THEME.box_r5, 0, x0, y0, x1 - x0, y1 - y0, COLORS.dialog_menubox_highlight, .2);
+                    draw_sprite_stretched_ext(THEME.box_r5, 0, x0, y0, x1 - x0, y1 - y0, COLORS.dialog_menubox_highlight, .25);
                     
                     if((mouse_lpress(pFOCUS)) || (instance_exists(o_dialog_menubox) && o_dialog_menubox.menu_id != _mname)) {
                         var _mnx   = hori? x + x0 : x + x1;

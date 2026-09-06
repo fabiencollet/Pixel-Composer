@@ -1252,7 +1252,7 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		
 	}
 	
-	function drawFrame() {
+	function drawFrame(_dialog = false) {
 		if(array_empty(content)) {
 			for(var i = 0, n = array_length(childs); i < n; i++) {
 				var _panel = array_safe_get(childs, i, 0);
@@ -1276,7 +1276,7 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		var _tw = tw - padding * 2;
 		var _th = th - padding * 2;
 		
-		if(THEME_VALUE.panel_separation_type == "frame")
+		if(THEME_VALUE.panel_separation_type == "frame" && !_dialog)
 			if(dFrame) draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, COLORS.panel_frame);
 		
 		if(focusing || focusDialog || (instance_exists(o_dialog_menubox) && o_dialog_menubox.getContextPanel() == self)) {

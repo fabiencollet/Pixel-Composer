@@ -171,8 +171,8 @@ function loadFonts() {
 		f_p3   = _font_load_default("p3",  _f_p3);
 		f_p4   = _font_load_default("p4",  _f_p4);
 		
-		f_code = _font_load_default("code", _f_code);
-		f_sdf  = _font_load_default("sdf",  _f_sdf);
+		f_code        = _font_load_default("code", _f_code);
+		f_sdf         = _font_load_default("sdf",  _f_sdf);
 		f_sdf_medium  = _font_load_default("sdf_medium", _f_sdf_medium);
 		FONT_ISLOADED = false;
 		
@@ -200,10 +200,9 @@ function loadFonts() {
 		f_p3  = _font_load_from_struct(fontDef, "p3",    _f_p3,   UI_FONT_TYPE.medium  );
 		f_p4  = _font_load_from_struct(fontDef, "p4",    _f_p4,   UI_FONT_TYPE.medium  );
 		
-		f_code       = _font_load_from_struct(fontDef, "code",        _f_code,       UI_FONT_TYPE.code );
-		f_sdf        = _font_load_from_struct(fontDef, "sdf",         _f_sdf,        UI_FONT_TYPE.bold );
-		f_sdf_medium = _font_load_from_struct(fontDef, "sdf_medium",  _f_sdf_medium, UI_FONT_TYPE.bold );
-		
+		f_code        = _font_load_from_struct(fontDef, "code",        _f_code,       UI_FONT_TYPE.code );
+		f_sdf         = _font_load_from_struct(fontDef, "sdf",         _f_sdf,        UI_FONT_TYPE.bold );
+		f_sdf_medium  = _font_load_from_struct(fontDef, "sdf_medium",  _f_sdf_medium, UI_FONT_TYPE.bold );
 		FONT_ISLOADED = true;
 		
 		f_hotkey = f_p2;

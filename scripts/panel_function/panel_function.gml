@@ -339,7 +339,7 @@ function __loadPanelStruct(panel, str) {
 	    	case "v":
 	    		var spw = ui(str.width);
 	    		if(MAC && cont[0].content == "Panel_Menu") // special case for our special OS
-	    			spw = YYC? 56 : 24;
+	    			spw = YYC? 54 : 24;
 	    		pan = panel.split_v(spw);
 	    		break;
 			

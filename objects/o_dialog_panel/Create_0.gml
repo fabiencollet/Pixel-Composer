@@ -13,6 +13,10 @@ event_inherited();
 	panel_toRefresh = false;
 	panel   = new Panel(noone, x, y, dialog_w, dialog_h).setDialog(self);
 	content = undefined;
+	
+	action_button_x0       = 0;
+	action_button_x1       = 0;
+	action_button_hovering = false;
 #endregion
 	
 function setContent(_content) {
