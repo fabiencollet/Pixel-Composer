@@ -140,8 +140,11 @@ function Node_MK_Fall(_x, _y, _group = noone) : Node(_x, _y, _group) constructor
 			
 		} else if(_area[4] == 1) {
 			var _dir = random(360);
-			_px = _area[0] + lengthdir_x(_area[2], _dir);
-			_py = _area[1] + lengthdir_y(_area[3], _dir);
+			var _dw  = sqrt(random(1)) * _area[2];
+			var _dh  = sqrt(random(1)) * _area[3];
+			
+			_px = _area[0] + lengthdir_x(_dw, _dir);
+			_py = _area[1] + lengthdir_y(_dh, _dir);
 		}
 		
 		var _sg = choose(1, -1);
@@ -259,44 +262,46 @@ function Node_MK_Fall(_x, _y, _group = noone) : Node(_x, _y, _group) constructor
 	}
 	
 	static update = function() {
-		var _seed = getInputData(2); var _sed = _seed;
-		
-		var _surf = getInputData(0);
-		var _dim  = getInputData(1);
-		
-		var _area = getInputData(3);
-		var _amou = getInputData(4);
-		
-		_speed    = getInputData(10);
-		_gravity  = getInputData( 5);
-		_wind     = getInputData(12);
-		
-		_fswing   = getInputData( 8);
-		_xswing   = getInputData( 6);
-		_yswing   = getInputData( 7);
-		_xswinn   = getInputData(11);
-		_yswinn   = getInputData(17);
-		
-		var _rtyp = getInputData(22);
-		var _size = getInputData( 9);
-		var _lsrf = getInputData(24);
-		var _lrot = getInputData(25);
-		_scale    = getInputData(21);
-		
-		var _colr    = getInputData(13);
-		var _colrShf = getInputData(26);
-		var _alph    = getInputData(14);
-		
-		_ground   = getInputData(15)? getInputData(16) : noone;
-		
-		_twist    = getInputData(18);
-		_twistr   = getInputData(19); _twistr = power(_twistr, 3);
-		_twists   = getInputData(20);
-		_twistd   = getInputData(23); _twistd = power(_twistd, 0.2);
-		
-		inputs[ 9].setVisible(_rtyp == MKFALL_LEAF_SHAPE.leaf);
-		inputs[25].setVisible(_rtyp == MKFALL_LEAF_SHAPE.surface);
-		inputs[24].setVisible(_rtyp == MKFALL_LEAF_SHAPE.surface, _rtyp == MKFALL_LEAF_SHAPE.surface);
+		#region data
+			var _seed = getInputData(2); var _sed = _seed;
+			
+			var _surf = getInputData(0);
+			var _dim  = getInputData(1);
+			
+			var _area = getInputData(3);
+			var _amou = getInputData(4);
+			
+			_speed    = getInputData(10);
+			_gravity  = getInputData( 5);
+			_wind     = getInputData(12);
+			
+			_fswing   = getInputData( 8);
+			_xswing   = getInputData( 6);
+			_yswing   = getInputData( 7);
+			_xswinn   = getInputData(11);
+			_yswinn   = getInputData(17);
+			
+			var _rtyp = getInputData(22);
+			var _size = getInputData( 9);
+			var _lsrf = getInputData(24);
+			var _lrot = getInputData(25);
+			_scale    = getInputData(21);
+			
+			var _colr    = getInputData(13);
+			var _colrShf = getInputData(26);
+			var _alph    = getInputData(14);
+			
+			_ground   = getInputData(15)? getInputData(16) : noone;
+			
+			_twist    = getInputData(18);
+			_twistr   = getInputData(19); _twistr = power(_twistr, 3);
+			_twists   = getInputData(20);
+			_twistd   = getInputData(23); _twistd = power(_twistd, 0.2);
+			
+			inputs[ 9].setVisible(_rtyp == MKFALL_LEAF_SHAPE.leaf);
+			inputs[25].setVisible(_rtyp == MKFALL_LEAF_SHAPE.surface);
+			inputs[24].setVisible(_rtyp == MKFALL_LEAF_SHAPE.surface, _rtyp == MKFALL_LEAF_SHAPE.surface);
+		#endregion
 		
 		if(is_surface(_surf)) _dim = surface_get_dimension(_surf);
 		

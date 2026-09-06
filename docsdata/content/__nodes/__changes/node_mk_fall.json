@@ -11,6 +11,11 @@
         "date": "2026-09-06T01:53:14.822Z",
         "node": "Preview Panel",
         "commit": "**Preview Panel**: Fix editing area in relative unit + non spanning type not apply unit properly."
+      },
+      {
+        "date": "2026-09-06T04:13:34.807Z",
+        "node": "MK Fall",
+        "commit": "**MK Fall**: Fix circle area shape only spawn on border."
       }
     ]
   },
