@@ -2,7 +2,8 @@ function preview_overlay_area_padding(hover, active, _x, _y, _s, _mx, _my, _flag
 	var _val  = array_clone(getValue());
 	var hovering = -1;
 	
-	if(!is_callable(display_data)) return hovering;
+	var _onSurfaceSize = struct_try_get(display_data, "onSurfaceSize")
+	if(!is_callable(_onSurfaceSize)) return hovering;
 	
 	var __ax = array_safe_get_fast(_val, 0);
 	var __ay = array_safe_get_fast(_val, 1);
@@ -15,7 +16,7 @@ function preview_overlay_area_padding(hover, active, _x, _y, _s, _mx, _my, _flag
 	var _y0 = __ay - __ah;
 	var _y1 = __ay + __ah;
 	
-	var ss = display_data();
+	var ss = _onSurfaceSize();
 	
 	var _l  = _x0;
 	var _r  = ss[0] - _x1;

@@ -158,8 +158,11 @@ function areaBox(_onModify, _unit = noone) : widget() constructor {
 	static setMode = function(_data, _mode) {
 		var x0 = 0, y0 = 0;
 		var x1 = 0, y1 = 0;
-		var ss = unit.mode == VALUE_UNIT.reference? [ 1, 1 ] : onSurfaceSize();
-
+		var ss = [1,1];
+		
+		if(unit.mode == VALUE_UNIT.constant && is_callable(onSurfaceSize))
+			ss = onSurfaceSize();
+		
 		switch(mode) {
 			case AREA_MODE.area :
 				var cx = array_safe_get_fast(_data, 0);
