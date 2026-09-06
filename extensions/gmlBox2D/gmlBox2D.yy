@@ -13,10 +13,10 @@
   "classname":"",
   "ConfigValues":{
     "Itch":{
-      "copyToTargets":"64",
+      "copyToTargets":"194",
     },
     "Steam":{
-      "copyToTargets":"64",
+      "copyToTargets":"194",
     },
   },
   "copyToTargets":194,
@@ -102,7 +102,23 @@
         {"$GMExtensionFunction":"","%Name":"gmlBox2D_Sensor_Get_Overlap","argCount":0,"args":[2,1,2,],"documentation":"","externalName":"Sensor_Get_Overlap","help":"gmlBox2D_Sensor_Get_Overlap(sensorIndex,outputBuffer,capacity)","hidden":false,"kind":1,"name":"gmlBox2D_Sensor_Get_Overlap","resourceType":"GMExtensionFunction","resourceVersion":"2.0","returnType":2,},
         {"$GMExtensionFunction":"","%Name":"gmlBox2D_Joint_Weld_Create","argCount":0,"args":[1,],"documentation":"","externalName":"Joint_Weld_Create","help":"gmlBox2D_Joint_Weld_Create(data)","hidden":false,"kind":1,"name":"gmlBox2D_Joint_Weld_Create","resourceType":"GMExtensionFunction","resourceVersion":"2.0","returnType":2,},
         {"$GMExtensionFunction":"","%Name":"gmlBox2D_Joint_Motor_Create","argCount":0,"args":[1,],"documentation":"","externalName":"Joint_Motor_Create","help":"gmlBox2D_Joint_Motor_Create(data)","hidden":false,"kind":1,"name":"gmlBox2D_Joint_Motor_Create","resourceType":"GMExtensionFunction","resourceVersion":"2.0","returnType":2,},
-      ],"init":"","kind":1,"name":"","origname":"","ProxyFiles":[],"resourceType":"GMExtensionFile","resourceVersion":"2.0","uncompress":false,"usesRunnerInterface":false,},
+      ],"init":"","kind":1,"name":"","origname":"","ProxyFiles":[
+        {"$GMProxyFile":"","%Name":"gmlBox2D.so","ConfigValues":{
+            "Itch":{
+              "TargetMask":"7",
+            },
+          },"name":"gmlBox2D.so","resourceType":"GMProxyFile","resourceVersion":"2.0","TargetMask":0,},
+        {"$GMProxyFile":"","%Name":"gmlBox2D.dylib","ConfigValues":{
+            "Itch":{
+              "TargetMask":"1",
+            },
+          },"name":"gmlBox2D.dylib","resourceType":"GMProxyFile","resourceVersion":"2.0","TargetMask":0,},
+        {"$GMProxyFile":"","%Name":"gmlBox2D.so","ConfigValues":{
+            "Itch":{
+              "TargetMask":"7",
+            },
+          },"name":"gmlBox2D.so","resourceType":"GMProxyFile","resourceVersion":"2.0","TargetMask":0,},
+      ],"resourceType":"GMExtensionFile","resourceVersion":"2.0","uncompress":false,"usesRunnerInterface":false,},
   ],
   "gradleinject":null,
   "hasConvertedCodeInjection":true,
