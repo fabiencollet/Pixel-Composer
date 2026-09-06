@@ -11,7 +11,13 @@ function __NodeValue_Enum_Button(_name, _node, _value, _data) : NodeValue(_name,
 	
 	////- Display
 	
-	static setChoices = function(_ch) { setDisplay(VALUE_DISPLAY.enum_button, { data: _ch }); return self; }
+	static setChoices = function(_ch) { 
+		if(is(editWdiget, buttonGroup)) {
+			display_data.data	 = _ch;
+			editWdiget.data_list = _ch;
+		} else setDisplay(VALUE_DISPLAY.enum_button, { data: _ch }); 
+		return self; 
+	}
 	
 	////- CONNECT
 	

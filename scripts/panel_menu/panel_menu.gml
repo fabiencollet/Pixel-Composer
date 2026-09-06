@@ -62,9 +62,9 @@
                     return submenuCall(_dat, arr, "recent_files").setTooltip(tip);
                 }).setMenu("recent_files",, true);
                 
-            registerFunction("", "Import Project .zip",  "", n, __IMPORT_ZIP ).setMenu("import_zip")
-            registerFunction("", "Export Project .zip",  "", n, __EXPORT_ZIP ).setMenu("export_zip")
-            registerFunction("", "Export Project .json", "", n, exportJSON   ).setMenu("export_json")
+            registerFunction("", "Import Project .zip",  "", n, __IMPORT_ZIP  ).setMenuAlt( "Compressed Archive (zip)", "import_zip"  )
+            registerFunction("", "Export Project .zip",  "", n, __EXPORT_ZIP  ).setMenuAlt( "Compressed Archive (zip)", "export_zip"  )
+            registerFunction("", "Export Project .json", "", n, __EXPORT_JSON ).setMenuAlt( "JSON Struct (json)",       "export_json" )
             
             registerFunction("", "Import",          "",     n, function(_dat) /*=>*/ {return submenuCall(_dat, [ MENU_ITEMS.import_zip ])} ).setMenu("import_menu",, true);
             registerFunction("", "Export",          "",     n, function(_dat) /*=>*/ {return submenuCall(_dat, [ 

@@ -1194,13 +1194,7 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 		#region visiblity
 			outputs[0].setValue(surf);
 			
-			if(is_array(surf)) {
-				inputs[3].display_data.data	   = format_array;
-				inputs[3].getEditWidget().data_list = format_array;
-			} else {
-				inputs[3].display_data.data    = format_single;
-				inputs[3].getEditWidget().data_list = format_single;
-			}
+			inputs[3].setChoices(is_array(surf)? format_array : format_single);
 			
 			inputs[16].setVisible(anim == 0);
 			
@@ -1229,8 +1223,7 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 						
 				var fType = getInputData(26);
 				
-				inputs[ 9].display_data.data         = format_animation;
-				inputs[ 9].getEditWidget().data_list = format_animation;
+				inputs[ 9].setChoices(format_animation);
 				inputs[17].setVisible(_fmt == ".gif");
 				inputs[18].setVisible(_fmt == ".gif" &&  _enc);
 				inputs[ 6].setVisible(_fmt == ".gif" && !_enc);
@@ -1264,8 +1257,7 @@ function Node_Export(_x, _y, _group = noone) : Node(_x, _y, _group) constructor 
 			} else {
 				var _fmt = array_safe_get_fast(format_image, extn);
 			
-				inputs[ 9].display_data.data	     = format_image;
-				inputs[ 9].getEditWidget().data_list = format_image;
+				inputs[ 9].setChoices(format_image);
 				inputs[13].setVisible(_fmt == ".png");
 				
 				if(_fmt == ".jpg" || _fmt == ".webp") {

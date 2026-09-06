@@ -1,4 +1,4 @@
-function exportJSON(project = PROJECT) {
+function __EXPORT_JSON(project = PROJECT) {
 	if(DEMO) return false;
 	
 	var path = get_save_filename_compat("JSON (.json)|*.json", ""); 

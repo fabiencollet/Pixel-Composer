@@ -1375,7 +1375,7 @@ function Node(_x, _y, _group = noone) : __Node_Base(_x, _y) constructor {
 		
 		setRenderStatus(true);
 		reqpass = checkRequirement();
-		if(!reqpass) return;
+		// if(!reqpass) return;
 		
 		render_timer = get_timer();
 		if(preUpdate) preUpdate(frame); 
@@ -1411,7 +1411,7 @@ function Node(_x, _y, _group = noone) : __Node_Base(_x, _y) constructor {
 		if(_updateRender) setRenderStatus(true);
 		
 		reqpass = checkRequirement();
-		if(!reqpass) return;
+		// if(!reqpass) return;
 		
 		render_timer = get_timer();
 		if(preUpdate) preUpdate(frame); 
