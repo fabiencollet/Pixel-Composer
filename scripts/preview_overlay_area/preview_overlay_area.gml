@@ -1,5 +1,7 @@
 function preview_overlay_area_padding(hover, active, _x, _y, _s, _mx, _my, _flag, display_data) {
-	var _val  = array_clone(getValue());
+	var _val = array_clone(getValue());
+	var _ref = unit.mode == VALUE_UNIT.reference? unit.reference() : [ 1, 1 ];
+	
 	var hovering = -1;
 	
 	var _onSurfaceSize = struct_try_get(display_data, "onSurfaceSize")
@@ -55,19 +57,21 @@ function preview_overlay_area_padding(hover, active, _x, _y, _s, _mx, _my, _flag
 	
 	if(drag_type) {
 		var _sval = array_clone(showValue());
-		if(unit.mode == VALUE_UNIT.reference) {
-			var _ref = unit.reference();
-			_sval[0] *= _ref[0];
-			_sval[1] *= _ref[1];
-			_sval[2] *= _ref[0];
-			_sval[3] *= _ref[1];
-		}
+		_sval[0] *= _ref[0];
+		_sval[1] *= _ref[1];
+		_sval[2] *= _ref[0];
+		_sval[3] *= _ref[1];
 		
 		     if(drag_type == 1) _sval[0] = _r;
 		else if(drag_type == 2) _sval[1] = _t;
 		
 		else if(drag_type == 3) _sval[2] = _l;
 		else if(drag_type == 4) _sval[3] = _b;
+		
+		_sval[0] /= _ref[0];
+		_sval[1] /= _ref[1];
+		_sval[2] /= _ref[0];
+		_sval[3] /= _ref[1];
 		
 		if(setValueInspector(_sval))
 			UNDO_HOLDING = true;
@@ -132,7 +136,9 @@ function preview_overlay_area_padding(hover, active, _x, _y, _s, _mx, _my, _flag
 }
 
 function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _flag) {
-	var _val  = array_clone(getValue());
+	var _val = array_clone(getValue());
+	var _ref = unit.mode == VALUE_UNIT.reference? unit.reference() : [ 1, 1 ];
+	
 	var hovering = -1;
 	
 	var __ax = array_safe_get_fast(_val, 0);
@@ -170,13 +176,10 @@ function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _fl
 	
 	if(drag_type) {
 		var _sval = array_clone(showValue());
-		if(unit.mode == VALUE_UNIT.reference) {
-			var _ref = unit.reference();
-			_sval[0] *= _ref[0];
-			_sval[1] *= _ref[1];
-			_sval[2] *= _ref[0];
-			_sval[3] *= _ref[1];
-		}
+		_sval[0] *= _ref[0];
+		_sval[1] *= _ref[1];
+		_sval[2] *= _ref[0];
+		_sval[3] *= _ref[1];
 	}
 	
 	if(drag_type == 1) {
@@ -185,6 +188,11 @@ function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _fl
 		
 		_sval[0]  = _xx;
 		_sval[1]  = _yy;
+		
+		_sval[0] /= _ref[0];
+		_sval[1] /= _ref[1];
+		_sval[2] /= _ref[0];
+		_sval[3] /= _ref[1];
 		
 		if(setValueInspector(_sval))
 			UNDO_HOLDING = true;
@@ -199,6 +207,11 @@ function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _fl
 		
 		_sval[2]  = _xx;
 		_sval[3]  = _yy;
+	
+		_sval[0] /= _ref[0];
+		_sval[1] /= _ref[1];
+		_sval[2] /= _ref[0];
+		_sval[3] /= _ref[1];
 		
 		if(setValueInspector(_sval))
 			UNDO_HOLDING = true;
@@ -217,6 +230,11 @@ function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _fl
 		_val[1] = __y0;
 		_val[2] = __x1;
 		_val[3] = __y1;
+	
+		_val[0] /= _ref[0];
+		_val[1] /= _ref[1];
+		_val[2] /= _ref[0];
+		_val[3] /= _ref[1];
 		
 		if(setValueInspector(_val))
 			UNDO_HOLDING = true;
@@ -282,7 +300,7 @@ function preview_overlay_area_two_point(hover, active, _x, _y, _s, _mx, _my, _fl
 function preview_overlay_area_span(hover, active, _x, _y, _s, _mx, _my, _flag) {
 	var _val = array_clone(getValue());
 	var _ref = unit.mode == VALUE_UNIT.reference? unit.reference() : [ 1, 1 ];
-
+	
 	var __ax = array_safe_get_fast(_val, 0);
 	var __ay = array_safe_get_fast(_val, 1);
 	var __aw = array_safe_get_fast(_val, 2);

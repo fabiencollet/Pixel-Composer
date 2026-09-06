@@ -15,8 +15,8 @@ function Node_MK_Fall(_x, _y, _group = noone) : Node(_x, _y, _group) constructor
 	newInput(1, nodeValue_Dimension());
 	
 	////- =Spawn
-	newInput(3, nodeValue_Area( "Area"       )).setUnitSimple().setHotkey("A");
-	newInput(4, nodeValue_Int(  "Amount", 10 ));
+	newInput(3, nodeValue_Area( "Area", DEF_AREA_REF )).setUnitSimple().setHotkey("A");
+	newInput(4, nodeValue_Int(  "Amount", 10         ));
 	
 	////- =Physics
 	newInput(10, nodeValue_Range( "Speed",   [1,1], { linked : true } ));
