@@ -39,8 +39,8 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 	tab_x_to    = 0;
 	tab_surface = noone;
 	
-	min_w = ui(40);
-	min_h = ui(40);
+	min_w = ui(16);
+	min_h = ui(16);
 	
 	dragging     = -1;
 	drag_sval    =  0;
@@ -512,19 +512,19 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		if(!array_empty(content)) {
 			var _minh = 0;
 			for( var i = 0, n = array_length(content); i < n; i++ )
-				_minh = max(_minh, content[i].min_w);
+				_minh = max(_minh, content[i].min_h);
 			return _minh;
 		}
 		
 		if(split == "h") {
-			var _minL = childs[0].getmin_w();
-			var _minR = childs[1].getmin_w();
+			var _minL = childs[0].getmin_h();
+			var _minR = childs[1].getmin_h();
 			return max(_minL, _minR);
 		}
 		
 		if(split == "v") {
-			var _minU = childs[0].getmin_w();
-			var _minD = childs[1].getmin_w();
+			var _minU = childs[0].getmin_h();
+			var _minD = childs[1].getmin_h();
 			return _minU + _minD;
 		}
 		
@@ -1188,7 +1188,9 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		setTabSize();
 		if(w <= ui(16) || th < ui(16)) return;
 		
-		var con = getContent();
+		var con    = getContent();
+		var dFrame = !MAC || !is(con, Panel_Menu);
+		
 		if(FULL_SCREEN_CONTENT != noone && con == FULL_SCREEN_CONTENT && self != FULL_SCREEN_PARENT) return;
 		
 		var tab  = array_length(content) > 1;
@@ -1206,7 +1208,7 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		
 		var _tw = tw - padding * 2;
 		var _th = th - padding * 2;
-		draw_sprite_stretched(THEME.ui_panel_bg, 0, tx + padding, ty + padding, _tw, _th);
+		if(dFrame) draw_sprite_stretched(THEME.ui_panel_bg, 0, tx + padding, ty + padding, _tw, _th);
 		
 		if(!is_surface(mask_surface)) {
 			mask_surface = surface_create_valid(tw, th);
@@ -1261,7 +1263,10 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		
 		var _mx = mouse_mxs;
 		var _my = mouse_mys;
-			
+		
+		var con    = getContent();
+		var dFrame = !MAC || !is(con, Panel_Menu);
+		
 		var p = ui(6);
 		var m_in = point_in_rectangle(_mx, _my, tx + p, ty + p, tx + tw - p, ty + th - p);
 		var m_ot = point_in_rectangle(_mx, _my, tx, ty, tx + tw, ty + th);
@@ -1272,15 +1277,15 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		var _th = th - padding * 2;
 		
 		if(THEME_VALUE.panel_separation_type == "frame")
-			draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, COLORS.panel_frame);
+			if(dFrame) draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, COLORS.panel_frame);
 		
 		if(focusing || focusDialog || (instance_exists(o_dialog_menubox) && o_dialog_menubox.getContextPanel() == self)) {
 			var _color = PREFERENCES.panel_outline_accent? COLORS._main_accent : COLORS.panel_select_border;
-			draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, _color, 1);
+			if(dFrame) draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, _color, 1);
 		}
 		
 		if(focusing && parent != noone && !m_in && m_ot && contentResizable()) {
-			draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, c_white, .4);
+			if(dFrame) draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, c_white, .4);
 			
 			if(DOUBLE_CLICK) {
 				extract();
@@ -1296,7 +1301,7 @@ function Panel(_parent, _x, _y, _w, _h) constructor {
 		} 
 		
 		if(draw_droppable) {
-			draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, COLORS._main_value_positive, 1);	
+			if(dFrame) draw_sprite_stretched_ext(THEME.ui_panel, 1, _tx, _ty, _tw, _th, COLORS._main_value_positive, 1);	
 			draw_droppable = false;
 		}
 	}

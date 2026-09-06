@@ -334,8 +334,17 @@ function __loadPanelStruct(panel, str) {
 		
 	if(has(str, "split")) {
 		var pan = panel;
-		     if(str.split == "v") pan = panel.split_v(ui(str.width));
-		else if(str.split == "h") pan = panel.split_h(ui(str.width));
+		
+		switch(str.split) {
+	    	case "v":
+	    		var spw = ui(str.width);
+	    		if(MAC && cont[0].content == "Panel_Menu") // special case for our special OS
+	    			spw = YYC? 56 : 24;
+	    		pan = panel.split_v(spw);
+	    		break;
+			
+			case "h": pan = panel.split_h(ui(str.width)); break;
+	    }
 		
 		if(pan != noone) {
 			var _f = __loadPanelStruct(pan[0], cont[0]); focPanel = focPanel ?? _f;

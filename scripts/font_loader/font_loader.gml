@@ -176,6 +176,8 @@ function loadFonts() {
 		f_sdf_medium  = _font_load_default("sdf_medium", _f_sdf_medium);
 		FONT_ISLOADED = false;
 		
+		f_hotkey = f_p2;
+		
 	} else {
 	
 		var s = file_read_all(path);
@@ -203,12 +205,10 @@ function loadFonts() {
 		f_sdf_medium = _font_load_from_struct(fontDef, "sdf_medium",  _f_sdf_medium, UI_FONT_TYPE.bold );
 		
 		FONT_ISLOADED = true;
-	}
-	
-	f_hotkey = f_p2;
-	
-	if(OS == os_macosx) { // load SF pro font with special shortcut characters
-		f_hotkey = _font_load_from_struct(fontDef, "hotkey", _f_p2, UI_FONT_TYPE.code );
+		
+		f_hotkey = f_p2;
+		if(MAC) f_hotkey = _font_load_from_struct(fontDef, "hotkey", _f_p2, UI_FONT_TYPE.code ); // load SF pro font with special shortcut characters
+		
 	}
 	
 	__font_refresh();
